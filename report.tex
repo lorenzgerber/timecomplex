@@ -1,0 +1,65 @@
+\documentclass[a4paper,11pt,twoside]{article}
+%\documentclass[a4paper,11pt,twoside,se]{article}
+
+\usepackage{UmUStudentReport}
+\usepackage{verbatim}   % Multi-line comments using \begin{comment}
+\usepackage{courier}    % Nicer fonts are used. (not necessary)
+\usepackage{pslatex}    % Also nicer fonts. (not necessary)
+\usepackage[pdftex]{graphicx}   % allows including pdf figures
+\usepackage{listings}
+%\usepackage{lmodern}   % Optional fonts. (not necessary)
+%\usepackage{tabularx}
+%\usepackage{microtype} % Provides some typographic improvements over default settings
+%\usepackage{placeins}  % For aligning images with \FloatBarrier
+%\usepackage{booktabs}  % For nice-looking tables
+%\usepackage{titlesec}  % More granular control of sections.
+
+% DOCUMENT INFO
+% =============
+\department{Institution för Datavetenskap}
+\coursename{Datavetenskapens byggstenar 7.5 p}
+\coursecode{DV160HT15}
+\title{OU4 Analysis of Complexity}
+\author{Lorenz Gerber  ({\tt{dv15lgr@cs.umu.se}})}
+\date{2015-12-25}
+%\revisiondate{2015-09-15}
+\instructor{Lena Kallin Westin / Johan Eliasson}
+
+
+% DOCUMENT SETTINGS
+% =================
+\bibliographystyle{plain}
+%\bibliographystyle{ieee}
+\pagestyle{fancy}
+\raggedbottom
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+%\graphicspath{{images/}}   %Path for images
+
+% DEFINES
+% =======
+%\newcommand{\mycommand}{<latex code>}
+
+% DOCUMENT
+% ========
+\begin{document}
+\lstset{language=C}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introduction} 
+The aim with this laboration was to 
+\cite[pp. 117 -- 132]{janlert2000}.
+
+\section{Material and Methods}
+
+\section{Results}
+
+\section{Discussion}
+
+\addcontentsline{toc}{section}{\refname}
+\bibliography{references}
+
+\end{document}
