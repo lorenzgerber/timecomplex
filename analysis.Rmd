@@ -1,0 +1,41 @@
+---
+title: "Experimental Complexity Analysis"
+author: "Lorenz Gerber"
+date: "25 December 2015"
+output: pdf_document
+---
+
+Experimental complexity analysis data processing and presentation.
+
+Load experimental data into R:
+
+```{r}
+# load experimental data
+setwd('~/github/timecomplex/')
+rawData<-read.table(file='test.txt', sep='\t', dec='.')
+
+# truncate data for measurments below one second
+rawData<-rawData[which(rawData[,1]>10000),]
+
+# assemble and attach data.frame
+rawData<-data.frame(nTimes = rawData[,1], runTime = rawData[,2])
+attach(rawData)
+
+# aggregate data
+results<-aggregate(runTime ~ nTimes, FUN = mean)
+
+```
+
+You can also embed plots, for example:
+
+```{r}
+plot(results[,1], results[,2], type = 'b')
+```
+
+```{r}
+# transforming the data
+plot(results[,1], sqrt(results[,2]), type = 'b')
+
+```
+
+
