@@ -66,12 +66,20 @@ notation, what does it mean.
 complexity of an algorithm. It can be written as shown in 
 equation (\ref{eq:ordo})\cite[pp. 245]{janlert2000}.
 
+\subsection{Determining of \textit{Ordo}, $c$ and $n_{0}$}
+bla bla bla
+
 \begin{equation} \label{eq:ordo}
 f(n) \Rightarrow O(g(n)) \textrm{ if } f(n) \leq c \times g(n)
 \textrm{ for } n \geq n_{0} \textrm{ and }
 c > 0 \textrm{ and } n_{0} \geq 1
 \end{equation}
 
+bla bla bla
+
+\begin{equation} \label{eq:limes}
+\lim_{n \to \infty} {f(n) \over g(n)} + 1
+\end{equation}
 
 
 
@@ -108,6 +116,61 @@ output: the sorted list
 \section{Results}
 \subsection{Experimental Complexity Analysis}
 Show formulas, C, n0
+\begin{figure} 
+\includegraphics[width=\textwidth]{graph1.png}
+\caption{\textit{Runtime values in seconds for a series of \textit{n}
+  repetitions of the investigated algorithm. The left panel shows the
+  measured times. For the right panel, the square root for each time
+  value was calculated before plotting.}}
+\label{fig:graph}
+\end{figure}
+
+The resulting runtime values, shown in the left of figure
+\ref{fig:graph}, where transformed by calculating the square
+root. The transformed data is shown in the right panel of figure 
+\ref{fig:graph}. Then linear regression was calculated on the
+transformed data (\textit{table\ref{tab:regression}}).
+
+\begin{table}[]
+\caption{\textit{Linear regression of the transformed experimental data}}
+\label{tab:regression}
+\begin{tabular}{lll}
+
+gradient &  & $7.348 \times 10^{-5}$ \\
+intercept &  & $1.393 \times 10^{-2}$ \\
+$R^2$ &  & 0.9988 \\ 
+\end{tabular}
+\end{table}
+
+The obtained linear equation was then transformed back to yield a
+quadratic function as shown in equation (\ref{eq:quadratic}).
+
+\begin{equation} \label{eq:quadratic}
+y = 5.4 \times 10^{-9}x^2 + 2.1 \times 10^{-6}x + 0.2 \times 10^{-4}
+\end{equation}
+
+Then $c$ was determined according to equation (\ref{eq:limes}) and
+$n_0$ was determined by solving the quadratic equation resulting from
+$f(n) = g(n)$ (Table \ref{tab:ordo}, figure \ref{fig:ordo}). 
+
+
+
+\begin{table}[]
+\caption{\textit{Calculated value for ordo determination}}
+\label{tab:ordo}
+\begin{tabular}{lll}
+$c$                       &  & $6.4 \times 10^{-9}$ \\
+\multicolumn{1}{c}{$n_0$} &  & 2060                
+\end{tabular}
+\end{table}
+
+
+\begin{figure} 
+\includegraphics[width=\textwidth]{ordo.png}
+\caption{\textit{Comparison of $f(x)$ and $O(g(x))$ in the range of $n_{0}$
+  which was determined to be at about $n = 2600$.}}
+\label{fig:ordo}
+\end{figure}
 
 \subsection{Asymptotic Complexity Analysis}
 \subsubsection{Worst Case}
@@ -165,8 +228,8 @@ Hence:
 = 12.5x^2 + 4.5x + 12
 
 \end{verbatim}
-\caption{Determining the `worst case' complexity for the given `bubblesort'
-  algorithm. The line numbers correspond to those in the listing xxx}
+\caption{\textit{Determining the `worst case' complexity for the given
+    `bubblesort' algorithm. The line numbers correspond to those in the listing (\ref{ls:bubble})}.}
 \end{listing}
 
 \subsubsection{Best case}
@@ -212,6 +275,19 @@ Hence:
   `bubblesort' algorithm. The line numbers correspond to those in
   listing xxx}
 \end{listing}
+
+\begin{table}[]
+\caption{\textit{Determination of $ordo$ for `Best' and `Worst Case'}}
+\label{tab:ordo}
+\begin{tabular}{llcc}
+&  & Worst Case & Best Case \\ 
+\hline
+$f(n)$ &  & \multicolumn{1}{c}{$12.5n^2+4.5x+12$} & \multicolumn{1}{c}{$9x+15$} \\
+$g(n)$ &  & \multicolumn{1}{c}{$13.5n^2$}         & \multicolumn{1}{c}{$10x$}   \\
+$c$    &  & 13.5                                  & 10                          \\
+$n_0$  &  & 7                                     & 15                          \\                         
+\end{tabular}
+\end{table}
 
 show plot
 
