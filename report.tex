@@ -37,10 +37,9 @@
 %\graphicspath{{images/}}   %Path for images
 
 \usepackage{float}
-
 \floatstyle{ruled}
-\newfloat{program}{thp}{lop}
-\floatname{program}{Program}
+\newfloat{listing}{thp}{lop}
+\floatname{listing}{Listing}
 
 
 % DEFINES
@@ -62,8 +61,19 @@ complexity analysis of algorithms.
 
 What is complexity analysis. Experimental, asymptotic. What is big O
 notation, what does it mean.
- 
-\cite[pp. 117 -- 132]{janlert2000}.
+\subsection{The `Big O' notation'}
+`Ordo' or `Big O' notation is a mathematical definition on the
+complexity of an algorithm. It can be written as shown in 
+equation (\ref{eq:ordo})\cite[pp. 245]{janlert2000}.
+
+\begin{equation} \label{eq:ordo}
+f(n) \Rightarrow O(g(n)) \textrm{ if } f(n) \leq c \times g(n)
+\textrm{ for } n \geq n_{0} \textrm{ and }
+c > 0 \textrm{ and } n_{0} \geq 1
+\end{equation}
+
+
+
 
 \section{Material and Methods}
 
@@ -72,7 +82,7 @@ Describe experiment, describe the rules.
 
 \subsection{Asymptotic Complexity Analysis}
 Describe what was given and the rules to analyse.
-\begin{program}
+\begin{listing}\label{ls:bubble}
 \begin{verbatim}
 Algorithm bubbleSort(numElements, list[])
 input:  numElements, the number of elements in the list
@@ -92,8 +102,8 @@ output: the sorted list
 11:    n <- n + 1
 12: return list 
 \end{verbatim}
-\caption{This is the shit}
-\end{program}
+\caption{The given pseudo code of a bubble sort.}
+\end{listing}
 
 \section{Results}
 \subsection{Experimental Complexity Analysis}
@@ -101,47 +111,107 @@ Show formulas, C, n0
 
 \subsection{Asymptotic Complexity Analysis}
 \subsubsection{Worst Case}
+
+\begin{listing}\label{ls:worst}
 \begin{verbatim}
 
-1:  1 * [done <- false] + 
-2:  1 * [n <- 0] + 
-3:  (numElements + 1) * ([n < numElements] + [done = false]) + 
-4:  numElements * [done <- true] + 
-5:  ((numElements(numElements+1)) / 2) * (1 * [m <-] + 1 * [numElements - 1]
-6:  1 * [> n] + $\\
-7:  1 * [list[m]] + 1* [m-1] + 1 * [list[]] + 1 * [<] + 
-8:  1 * [m-1] + 1 * [list[]] + 1 * [<-] + 
-9:  1 * [tmp] + 1 * [m-1] + 1 * [list[] <-] +
-10: 1 * [done <- false] ) +
-11: 1 * [n + 1] + 1 * [n <-] +
+1:  1 * [<-] + 
+2:  1 * [<-] + 
+3:  (numElements + 1) * 
+    (3 * [get] + 1 * [<] +  1 * [=] + 1 * [AND]) + 
+4:  numElements * (1 * [<-]) +
+5:  init:
+    (numElements * (numElements -1) / 2 + 1) *
+    (1 * [get] + 1 * [-] + 1 * [<-]) +
+ 
+    cond success + counter: 
+    numElements * (numElements - 1) / 2) *
+    (2 * [get] + 1 * [>] + 1 * [--]) +
+
+    cond fail:
+    numElements * 
+    (2 * [get n] + 1 * [>]) +
+
+6:  (numElements * (numElements - 1) / 2) * 
+    (2 * [get] + 2 * [list[]] + 1 * [-] + 1 * [<] + 
+7:      1 * [get] + 1 * [list[]] + 1 * [<-] +
+8:      1 * [get] + 1 * [-] + 1 * [list[]] + 1 * [<-] + 
+9:      2 * [get] + 1 * [-] + 1 * [ <-] +
+10:     1 * [<-] ) +
+11: numElements * (1 * [get] + 1 * [+] + 1 * [<-] +
 12: 1 * return
 
 set numElements = x
 
-1 + 1 + (x + 1) * 2 + x + (x(x+1) / 2) * ( 1 + 1 + 1 + 1 + 1 + 1
-+ 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1) + 1 + 1 + 1
-2 + 2x + 2 + x + (1 / 2x^2} + {1 / 2x) * 14 + 3
-3x + 6 + 7x^2 + 7x
-7x^2 + 10x + 7
+1:  1 + 
+2:  1 + 
+3:  (x + 1) * 6  
+4:  x * 1
+5:  (x * (x-1) / 2 + 1) * 3 +
+    (x * (x - 1) / 2) * 4 +
+    x * 3 +
+6:  (x * (x - 1) / 2) * (6 +
+7:    3 + 
+8:    4 +
+9:    4 + 
+10:   1) + 
+11: x * 3 +
+12: 1 
+
+Hence:
+1 + 1 + 6x + 6 + x + 1.5x^2 - 1.5x + 3 + 2x^2 - 2x + 
+3x + 9x^2 - 9x + 3x + 1
+
+= 12.5x^2 + 4.5x + 12
+
 \end{verbatim}
+\caption{Determining the `worst case' complexity for the given `bubblesort'
+  algorithm. The line numbers correspond to those in the listing xxx}
+\end{listing}
 
 \subsubsection{Best case}
-\begin{verbatim}
-1: 1 * [done <- false] +
-2: 1 * [n <- 0] +
-3: 2 * ([n < numElements] + [done = false]) +
-4: 1 * [done <- true] +
-5: (numElements - 1) * (1 * [m <-] + 1 * [numElements - 1] + 1 * [> n])
 
-11: 1 * [n+1] + 1 * [<-]
+\begin{listing}\label{ls:best}
+\begin{verbatim}
+1:  1 * [<-] +
+2:  1 * [<-] +
+3:  2 * (3 * [get] + 1 *[<] + 1 * [and] + 1* [==]) +
+4:  1 * [<-] +
+5:  init:
+    1 * [get] + 1 * [-] + 1 * [<-] +
+
+    cond success + counter:
+    (numElements - 1) * (1 * [get] + 1 * [>]) + 1 * [--]) +
+    
+    cond fail:
+    1* [get] + 1 * [>] + 
+6:  (numElements - 1) * 
+    (2 * [get] +  2 * list[] + 1 * [-] + 1 * [<]) +
+11: 1 * [get] + 1 * [+] + 1 * [<-]
 12: 1 * [return]
 
 set numElements = x
 
-1 + 1 + 2 * 2 + 1 + (x-1) * (1 + 1 + 1) + 1 + 1 + 1
-10 + 3x - 3
-3x + 7
+1:  1 +
+2:  1 +
+3:  2 * 6 +
+4:  1 +
+5:  3 + 
+    (x - 1) * 3 +
+    2 +
+6:  (x - 1) * 6 +
+11: 3 +
+12: 1 
+
+Hence:
+1 + 1 + 12 + 1 + 3 + 3x - 3 + 2 + 6x -6 + 3 + 1
+= 9x + 15
+
 \end{verbatim}
+\caption{Determining the `best case' complexity for the given
+  `bubblesort' algorithm. The line numbers correspond to those in
+  listing xxx}
+\end{listing}
 
 show plot
 
@@ -149,6 +219,13 @@ show plot
 \subsection{Experimental Complexity Analysis}
 
 \subsection{Asymptotic Complexity Analysis}
+\subsubsection{Worst Case}
+Line 1, 2 and 12 run just once. Line 3 runs \verb!numElements + 1! times. Lines
+4 and 11 run \verb!numElements! times. Line 5 runs
+\verb!(numElements * (numElements - 1)) / 2) + 1! 
+times. The lines 6 to 10 run \verb!numElements * (numElements - 1) / 2! times. 
+The \verb!downto! in \verb!for m <- (numElements - 1) downto n! was
+interpreted as `larger than' condition.
 
 
 \addcontentsline{toc}{section}{\refname}
