@@ -36,6 +36,13 @@
 \setcounter{tocdepth}{2}
 %\graphicspath{{images/}}   %Path for images
 
+\usepackage{float}
+
+\floatstyle{ruled}
+\newfloat{program}{thp}{lop}
+\floatname{program}{Program}
+
+
 % DEFINES
 % =======
 %\newcommand{\mycommand}{<latex code>}
@@ -65,12 +72,77 @@ Describe experiment, describe the rules.
 
 \subsection{Asymptotic Complexity Analysis}
 Describe what was given and the rules to analyse.
+\begin{program}
+\begin{verbatim}
+Algorithm bubbleSort(numElements, list[])
+input:  numElements, the number of elements in the list
+        list, a list of numbers to be sorted
+output: the sorted list
+
+1:  done <- false
+2:  n <- 0
+3:   while (n < numElements) and (done = false)
+4:      done <- true
+5:      for m <- (numElements -1) downto n
+6:          if list[m] < list[m - 1] then
+7:              tmp <- list[m]
+8:              list[m] <- list[m - 1]
+9:              list[m - 1] <- tmp
+10:             done <- false
+11:    n <- n + 1
+12: return list 
+\end{verbatim}
+\caption{This is the shit}
+\end{program}
 
 \section{Results}
 \subsection{Experimental Complexity Analysis}
 Show formulas, C, n0
 
 \subsection{Asymptotic Complexity Analysis}
+\subsubsection{Worst Case}
+\begin{verbatim}
+
+1:  1 * [done <- false] + 
+2:  1 * [n <- 0] + 
+3:  (numElements + 1) * ([n < numElements] + [done = false]) + 
+4:  numElements * [done <- true] + 
+5:  ((numElements(numElements+1)) / 2) * (1 * [m <-] + 1 * [numElements - 1]
+6:  1 * [> n] + $\\
+7:  1 * [list[m]] + 1* [m-1] + 1 * [list[]] + 1 * [<] + 
+8:  1 * [m-1] + 1 * [list[]] + 1 * [<-] + 
+9:  1 * [tmp] + 1 * [m-1] + 1 * [list[] <-] +
+10: 1 * [done <- false] ) +
+11: 1 * [n + 1] + 1 * [n <-] +
+12: 1 * return
+
+set numElements = x
+
+1 + 1 + (x + 1) * 2 + x + (x(x+1) / 2) * ( 1 + 1 + 1 + 1 + 1 + 1
++ 1 + 1 + 1 + 1 + 1 + 1 + 1 + 1) + 1 + 1 + 1
+2 + 2x + 2 + x + (1 / 2x^2} + {1 / 2x) * 14 + 3
+3x + 6 + 7x^2 + 7x
+7x^2 + 10x + 7
+\end{verbatim}
+
+\subsubsection{Best case}
+\begin{verbatim}
+1: 1 * [done <- false] +
+2: 1 * [n <- 0] +
+3: 2 * ([n < numElements] + [done = false]) +
+4: 1 * [done <- true] +
+5: (numElements - 1) * (1 * [m <-] + 1 * [numElements - 1] + 1 * [> n])
+
+11: 1 * [n+1] + 1 * [<-]
+12: 1 * [return]
+
+set numElements = x
+
+1 + 1 + 2 * 2 + 1 + (x-1) * (1 + 1 + 1) + 1 + 1 + 1
+10 + 3x - 3
+3x + 7
+\end{verbatim}
+
 show plot
 
 \section{Discussion}
