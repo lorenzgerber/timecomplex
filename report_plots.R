@@ -24,5 +24,5 @@ summary(lm(sqrt(runTime) ~ nTimes, results))
 curve(5.4e-9*x^2 + 2.05e-6*x + 0.2e-4, xlim=c(0,3000), ylab="runtime s", xlab="n repetitions")
 curve(6.4e-9*x^2, add=TRUE, col='red')
 
-legend(0, 0.05, c(expression(y = 5.4%*%10^-9*x^2+2.05%*%10^-6*x+0.2%*%10^-4), 
-                  expression(y = 6.4%*%10^-9*x^2)), lty=c(1,1), lwd=c(2.5,2.5),col=c('black','red'))
+legend(0, 0.05, c(expression(paste("f(x) = ",5.4%*%10^-9*x^2+2.05%*%10^-6*x+0.2%*%10^-4)), 
+                  expression(paste("g(x) = ",6.4%*%10^-9*x^2))), lty=c(1,1), lwd=c(2.5,2.5),col=c('black','red'))
