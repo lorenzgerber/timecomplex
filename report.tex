@@ -57,21 +57,23 @@
 
 \section{Introduction} 
 The aim with this laboration was to apply experimental and asymptotic
-complexity analysis of algorithms. This type of analysis is used to
-find out how a algorithm of interest behaves when scaling up the input
-size. The analysis will answer the question: In which relation is
-the algorithm runtime to the size of input data. A practical 
+complexity analysis of algorithms. This type of experiments and
+analysis are used to determine the time or space complexity of an 
+algorithm. Or a bit more casual, it is used to find out how a
+algorithm behaves for varying input sizes. The analysis seeks to 
+answer the question: In which mathematical relation is
+the algorithm's runtime to the size of input data. A practical 
 example is to describe the needed time for sorting a list, dependent 
-on the number of list elements. Such an analysis results in a algebraic
+on the number of list elements. Such an analysis results in an algebraic
 expression, a function $f(n) = t$ where $n$ is the input size and $t$
 the algorithm runtime. This will allow to classify algorithms into a
-number of broad classes according to the most dominant term in the 
-function: $k, log(n)$, $n$, $n^2$, $n^k$ or $a^n$.
+number of groups according to their most dominant term in the 
+describing algebraic function: $k, log(n)$, $n$, $n^2$, $n^k$ or $a^n$.
 
-In this laboration, we were experimenting with two common ways for
-determining the function relation between input size and runtim:
-experimental complexity analysis and asymptotic complexity analysis
-based on calculation of primitive operations. While both of those
+In this laboration, we were working with two common ways for
+determining the function relation between input size and runtime:
+`experimental complexity analysis' and `asymptotic complexity analysis
+based on calculation of primitive operations'. While both of these
 methods can yield rather complex expressions, the aim is to find a
 simple formula that describes the relation 'on the safe side', i.e. a
 conservative estimation of run-time. This last description, finding
@@ -85,19 +87,20 @@ algorithm is measured for a number of different input sizes. The value
 pairs are then visualized in a scatter plot. It is important to choose
 apropriate ranges of input size $n$ but also a reasonable number of
 replicate measurments for each input size. 
-The replication is important for mainly two reasons: First, the performance of a computer
-is not constant. It varies within a small range and measurments will
-therefore spread somewhat around one theoretical `true' value. Second,
+The replication is important for mainly two reasons: First, the 
+performance of a computer is not perfectly constant over time. 
+It varies within a small range and measurments will
+therefore spread somewhat around a theoretical `true' value. Second,
 and in most cases more important, many algorithms have a certain
 `random' component built in. Alternatively, the test data could be
-generated randomly to assess for an average case. Taking up the
-example of sorting a list, the data could be already sorted in the
+generated randomly to assess an average case. Taking up the
+example of sorting a list again, the data could be already sorted in the
 best case or oposite to the requested sort sequence in the worst
 case. In any case, replicate measurments for the same input size are
 inavoidable.
 
 After plotting the experimental data, assumptions about the relation
-between input size and runtime are made. They can be visually tested
+between input size and runtime can be done. They can be visually tested
 by transforming the experimental data with the inverse of the expected
 function. If, for example a graph looks like a second degree polynom,
 transforming the response variable with the square-root should yield a
@@ -128,10 +131,14 @@ room for interpretation. But in general, primitive operations are
 \verb![read]!, \verb![write/assign]!, \verb![compare]!,
 \verb![increase/decrease]!, \verb![arithmetic operations]! etc. Summing up
 all primitive operations for a given algorithm will result in a
-function $f(n)$ where $n$ is the input size.
+function $f(n)$ where $n$ is the input size. Primitve operations will
+not perfectly reflect the real case as it can for example not take 
+cache optimizations of a given system into account. Already the use of
+different compilers for a given source code can result in differences
+regarding primitive operations. 
 
 \subsection{The `Big O' notation'}
-`Ordo' or `Big O' notation is a mathematical definition of an algorithms
+`Ordo' or `Big O' notation is a mathematical definition of an algorithms'
 time complexity. It's formal defintion is shown in equation
 (\ref{eq:ordo})\cite[pp. 245]{janlert2000}.  
 
@@ -142,7 +149,7 @@ c > 0 \textrm{ and } n_{0} \geq 1
 \end{equation}
 
 In words: If the function $c \times g(n)$ for $n$ larger than $n_{0}$
-is always bigger than $f(n)$, it is $O(g(n))$ (say: $ordo$  $g$ of
+is always bigger than $f(n)$, it is of $O(g(n))$ (say: $ordo$  $g$ of
 $n$). Hence knowing `ordo' of an algorithm gives a good estimation 
 of it's time complexity.
 
@@ -187,7 +194,7 @@ was written that run the program 10 times for the input sizes n = (1'000,
 
 \begin{verbatim}
 #!/usr/local/bin/bash                                                                                           
-ARRAY=(1000 2500 5000 10000 15000 20000 25000 50000 75000  100000 125000 150000 200000)
+ARRAY=(10000 15000 20000 25000 50000 75000  100000 125000 150000 200000)
 for a in ${ARRAY[*]}
 do
     for b in {1..10}
@@ -419,7 +426,7 @@ In table \ref{tab:ordo2} the keyfigures of the `ordo' determination for
 &  & Worst Case & Best Case \\ 
 \hline
 $f(n)$ &  & \multicolumn{1}{c}{$12.5n^2+4.5x+12$} & \multicolumn{1}{c}{$9x+15$} \\
-$g(n)$ &  & \multicolumn{1}{c}{$13.5n^2$}         & \multicolumn{1}{c}{$10x$}   \\
+$g(n)$ &  & \multicolumn{1}{c}{$n^2$}             & \multicolumn{1}{c}{$x$}   \\
 $c$    &  & 13.5                                  & 10                          \\
 $n_0$  &  & 7                                     & 15                          \\                         
 \end{tabular}
@@ -447,18 +454,53 @@ the validity of the found `ordo' defintion (table \ref{tab:ordo}).
 
 
 \subsection{Asymptotic Complexity Analysis}
-The main given pseudo code for a bubble sort algorithm has the ma
+The main flow structural feature of the given bubble sort algorithm can be
+described as a \verb!for! loop encapsulated in a \verb!while!
+loop. 
 
 \subsubsection{Worst Case}
+The `worst' case occurs, when the in-data list is sorted in the
+oposite direction. Only by looking at the above described encapsulated
+loop structure, it becomes clear that the complexity will be at least
+$n \times n$, hence $n^2$. However, by reducing the inner loop in
+every additional round for the outer loop to skip already sorted
+elements, the inner loop runs in the worst case just roughly ${n /over
+  2}$ times. All further details can be seen in listing
+\ref{ls:worst}. In brief, it was chosen to also account one primitive
+operation for each \verb!read! of a variable.
 
+After finding the $f(n)$, `ordo' was determined. $c$ was calculated
+according to equation \ref{eq:limes} and $n_{0}$ by solving equation
+\ref{eq:nzero}. 
 
+\subsubsection{`Best Case'}
+The best case occurs when the in-data list is already sorted. In this
+case, the outer \verb!while! loop will run through just once while the
+inner \verb!for! loop will run about $n-1$ times where $n$ is the
+number of elements. However, on each \verb!for! loop round, just a
+part of the code will be executed, as the \verb!if! condition will
+always evaluate to \verb!false!. Hence, at `best' case, the given
+bubble sort algorithm can be expected to be of linear time complexity
+which was also the result of summing up the primitive operations as
+shown in listing \ref{ls:best}.  
 
-Line 1, 2 and 12 run just once. Line 3 runs \verb!numElements + 1! times. Lines
-4 and 11 run \verb!numElements! times. Line 5 runs
-\verb!(numElements * (numElements - 1)) / 2) + 1! 
-times. The lines 6 to 10 run \verb!numElements * (numElements - 1) / 2! times. 
-The \verb!downto! in \verb!for m <- (numElements - 1) downto n! was
-interpreted as `larger than' condition.
+Determination of `ordo' was accomplished in the same way as for the
+`best' case as described earlier. The result is shown in table
+\ref{tab:ordo2}.
+
+\section{Reflections on the laboration}
+I enjoyed solving the present laboration. From the first part I liked
+the practical aspect of doing data analysis, interpreting experimental
+data and coming up with a function describing the data. I found the 
+laboration well explained and on an appropriate level of difficulty. 
+
+In the asymptotic complexity analysis I was surprised how much time
+once could spend on a rather simple and short algorithm and still time
+after time finding again inconsitencies in how one assigned primitive
+operations. It took me at least five attempts to get the final version
+of the `worst' case analysis. Altough the final result did not change
+much from attempt to attempt, it felt just wrong to not justify small
+inconsistencies as I thought every time it would be the last.
 
 
 \addcontentsline{toc}{section}{\refname}
