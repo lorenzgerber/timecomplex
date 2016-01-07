@@ -57,17 +57,83 @@
 
 \section{Introduction} 
 The aim with this laboration was to apply experimental and asymptotic
-complexity analysis of algorithms. 
+complexity analysis of algorithms. This type of analysis is used to
+find out how a algorithm of interest behaves when scaling up the input
+size. The analysis will answer the question: In which relation is
+the algorithm runtime to the size of input data. A practical 
+example is to describe the needed time for sorting a list, dependent 
+on the number of list elements. Such an analysis results in a algebraic
+expression, a function $f(n) = t$ where $n$ is the input size and $t$
+the algorithm runtime. This will allow to classify algorithms into a
+number of broad classes according to the most dominant term in the 
+function: $k, log(n)$, $n$, $n^2$, $n^k$ or $a^n$.
 
-What is complexity analysis. Experimental, asymptotic. What is big O
-notation, what does it mean.
+In this laboration, we were experimenting with two common ways for
+determining the function relation between input size and runtim:
+experimental complexity analysis and asymptotic complexity analysis
+based on calculation of primitive operations. While both of those
+methods can yield rather complex expressions, the aim is to find a
+simple formula that describes the relation 'on the safe side', i.e. a
+conservative estimation of run-time. This last description, finding
+a simple, conservative expression for the relation of input size and
+runtime qualifies as a `sloppy' definition of the `Big O' notation
+which will be described in more detail further down.
+
+\subsection{Experimental Complexity Analysis}
+In experimental complexity analysis, the time consumption of the
+algorithm is measured for a number of different input sizes. The value
+pairs are then visualized in a scatter plot. It is important to choose
+apropriate ranges of input size $n$ but also a reasonable number of
+replicate measurments for each input size. 
+The replication is important for mainly two reasons: First, the performance of a computer
+is not constant. It varies within a small range and measurments will
+therefore spread somewhat around one theoretical `true' value. Second,
+and in most cases more important, many algorithms have a certain
+`random' component built in. Alternatively, the test data could be
+generated randomly to assess for an average case. Taking up the
+example of sorting a list, the data could be already sorted in the
+best case or oposite to the requested sort sequence in the worst
+case. In any case, replicate measurments for the same input size are
+inavoidable.
+
+After plotting the experimental data, assumptions about the relation
+between input size and runtime are made. They can be visually tested
+by transforming the experimental data with the inverse of the expected
+function. If, for example a graph looks like a second degree polynom,
+transforming the response variable with the square-root should yield a
+straight line, which visually is much easier to identify as such than
+a curve. If the assumption was correct and the resulting graph looks
+linear, a linear regression analysis will numerically provide proof
+for the assumption. The obtained line equation can then be
+transformed back, in the described case resulting in a second degree 
+polynom. From here, the next step will be to determine `ordo' of the
+obtained function which will be described further down.
+
+\subsection{Asymptotic Complexity Analysis}
+In asymptotic complexity analysis, the aim is the same as described
+above in experimental complexity analysis: Obtaining a algebraic
+relation between input data size and runtime. However, in asymptotic
+complexity analysis, the algorithm must be know and available. The
+analysis is based on a detailed account for how often each step in the
+algorithm will run as a function of input size $n$. There can be
+certain steps in an algorithm, that will be independent of input
+size, constant. Others will be related linear, polynomal, logarithmic
+or exponential with input size. A Typical example is a double
+\verb!For! loop: It will yield a $n /times n$ relation, hence it
+results in a $n^2$ funtion.
+
+The steps to account for in an algorithm are called 'primtive
+operations'. This is a rather theoretical definition that leaves some
+room for interpretation. But in general, primitive operations are
+\verb![read]!, \verb![write/assign]!, \verb![compare]!,
+\verb![increase/decrease]!, \verb![arithmetic operations]! etc. Summing up
+all primitive operations for a given algorithm will result in a
+function $f(n)$ where $n$ is the input size.
+
 \subsection{The `Big O' notation'}
-`Ordo' or `Big O' notation is a mathematical definition on the
-complexity of an algorithm. It can be written as shown in 
-equation (\ref{eq:ordo})\cite[pp. 245]{janlert2000}.
-
-\subsection{Determining of \textit{Ordo}, $c$ and $n_{0}$}
-bla bla bla
+`Ordo' or `Big O' notation is a mathematical definition of an algorithms
+time complexity. It's formal defintion is shown in equation
+(\ref{eq:ordo})\cite[pp. 245]{janlert2000}.  
 
 \begin{equation} \label{eq:ordo}
 f(n) \Rightarrow O(g(n)) \textrm{ if } f(n) \leq c \times g(n)
@@ -75,22 +141,78 @@ f(n) \Rightarrow O(g(n)) \textrm{ if } f(n) \leq c \times g(n)
 c > 0 \textrm{ and } n_{0} \geq 1
 \end{equation}
 
-bla bla bla
+In words: If the function $c \times g(n)$ for $n$ larger than $n_{0}$
+is always bigger than $f(n)$, it is $O(g(n))$ (say: $ordo$  $g$ of
+$n$). Hence knowing `ordo' of an algorithm gives a good estimation 
+of it's time complexity.
+
+\subsection{Determining of \textit{Ordo}, $c$ and $n_{0}$}
+Determing `Ordo' is done in several steps. First the most dominant
+function terms of $f(n)$ has to be found and set as $g(n)$. In a
+general second degree polynom, $n^2$ is for example the dominant term.
+
+Then the constant factor $c$ is determined by calculating the limes
+from n to infinity of dividing $f(n)$ by $g(n)$ according to
+equation (\ref{eq:limes}).  
 
 \begin{equation} \label{eq:limes}
 \lim_{n \to \infty} {f(n) \over g(n)} + 1
 \end{equation}
 
+The value $n_{0}$ is the lower limit of input size $n$ for which
+$g(n)$ will be at least equal or larger than $f(n)$. It is found by
+solving equation \ref{eq:nzero}. 
+
+\begin{equation} \label{eq:nzero}
+c\times g(n) = f(n)
+\end{equation}
 
 
 \section{Material and Methods}
 
 \subsection{Experimental Complexity Analysis}
-Describe experiment, describe the rules.
+We obtained a compiled program to run from the command line. The
+program would take three arguments: a selector for one of two
+implemented algorithms, size of in data and number of repetitions. It
+was unknown to us which algorithms were implemented in the
+program. The program would run a certain time and before quitting, 
+print the runtime to standard out.
+
+To automate the experimental process, a shell script (listing \ref{ls:bash}) 
+was written that run the program 10 times for the input sizes n = (1'000, 
+2'500, 5'000, 10'000, 15'000, 20'000, 25'000, 50'000, 75'000, 100'000,
+125'000, 150'000, 200'000).
+
+\begin{listing}
+
+\begin{verbatim}
+#!/usr/local/bin/bash                                                                                           
+ARRAY=(1000 2500 5000 10000 15000 20000 25000 50000 75000  100000 125000 150000 200000)
+for a in ${ARRAY[*]}
+do
+    for b in {1..10}
+    do
+        ./algorithms_osx -2 $a
+    done
+done
+\end{verbatim}
+\caption{Shell script to automate the collection of experimental
+  data. Standard output was piped and appended to a text file.\label{ls:bash}}
+\end{listing}
+
+The script was run from the bash commandline on a MacbookPro8,1 and
+the output piped and appended to a text file which was then imported
+to statistical computing environment R \cite{rlanguage}. All data analysis and
+plotting was done in R. 
+
 
 \subsection{Asymptotic Complexity Analysis}
-Describe what was given and the rules to analyse.
-\begin{listing}\label{ls:bubble}
+We were given pseudo code of a bubble sort algorithm (listing \ref{ls:bubble})
+to conduct asymptotic complexity analysis. A short description on how
+to account for primitive operations was available through the course
+homepage \cite{complex}.
+
+\begin{listing}
 \begin{verbatim}
 Algorithm bubbleSort(numElements, list[])
 input:  numElements, the number of elements in the list
@@ -113,21 +235,27 @@ output: the sorted list
 \caption{The given pseudo code of a bubble sort.}
 \end{listing}
 
+After accounting for primitive operations and obtaining algebraic
+functions describing `best' and `worst' case for the bubblesort algorithm, 
+`ordo' expressions were determined according to lecture notes. 
+
+
 \section{Results}
 \subsection{Experimental Complexity Analysis}
-Show formulas, C, n0
+
 \begin{figure} 
 \includegraphics[width=\textwidth]{graph1.png}
 \caption{\textit{Runtime values in seconds for a series of \textit{n}
   repetitions of the investigated algorithm. The left panel shows the
   measured times. For the right panel, the square root for each time
-  value was calculated before plotting.}}
+  value was calculated before plotting.}\label{ls:bubble}}
 \label{fig:graph}
 \end{figure}
 
-The resulting runtime values, shown in the left of figure
-\ref{fig:graph}, where transformed by calculating the square
-root. The transformed data is shown in the right panel of figure 
+The left panel of figure \ref{fig:graph} shows the experimental
+runtime values plotted against $n$ length of input data. The values
+were then transformed by calculating the square root. The 
+transformed data is shown in the right panel of figure 
 \ref{fig:graph}. Then linear regression was calculated on the
 transformed data (\textit{table\ref{tab:regression}}).
 
@@ -142,7 +270,7 @@ $R^2$ &  & 0.9988 \\
 \end{tabular}
 \end{table}
 
-The obtained linear equation was then transformed back to yield a
+The obtained linear equation was transformed back to yield a
 quadratic function as shown in equation (\ref{eq:quadratic}).
 
 \begin{equation} \label{eq:quadratic}
@@ -152,8 +280,6 @@ y = 5.4 \times 10^{-9}x^2 + 2.1 \times 10^{-6}x + 0.2 \times 10^{-4}
 Then $c$ was determined according to equation (\ref{eq:limes}) and
 $n_0$ was determined by solving the quadratic equation resulting from
 $f(n) = g(n)$ (Table \ref{tab:ordo}, figure \ref{fig:ordo}). 
-
-
 
 \begin{table}[]
 \caption{\textit{Calculated value for ordo determination}}
@@ -174,8 +300,11 @@ $c$                       &  & $6.4 \times 10^{-9}$ \\
 
 \subsection{Asymptotic Complexity Analysis}
 \subsubsection{Worst Case}
+Listing \ref{ls:worst} shows the determination of primitive operation
+for the `worst' case. The line numbers correspond to the line numbers
+in the original pseudocode shown in listing \ref{ls:bubble}.
 
-\begin{listing}\label{ls:worst}
+\begin{listing}
 \begin{verbatim}
 
 1:  1 * [<-] + 
@@ -229,12 +358,16 @@ Hence:
 
 \end{verbatim}
 \caption{\textit{Determining the `worst case' complexity for the given
-    `bubblesort' algorithm. The line numbers correspond to those in the listing (\ref{ls:bubble})}.}
+    `bubblesort' algorithm. The line numbers correspond to those in 
+listing \ref{ls:bubble}}.\label{ls:worst}}
 \end{listing}
 
 \subsubsection{Best case}
+Listing \ref{ls:best} shows the determination of primitive operation
+for the `best' case. The line numbers correspond to the line numbers
+in the original pseudocode shown in listing \ref{ls:bubble}.
 
-\begin{listing}\label{ls:best}
+\begin{listing}
 \begin{verbatim}
 1:  1 * [<-] +
 2:  1 * [<-] +
@@ -273,12 +406,15 @@ Hence:
 \end{verbatim}
 \caption{Determining the `best case' complexity for the given
   `bubblesort' algorithm. The line numbers correspond to those in
-  listing xxx}
+  listing \ref{ls:bubble}.\label{ls:best}}
 \end{listing}
+
+In table \ref{tab:ordo2} the keyfigures of the `ordo' determination for
+`best' and `worst' case expressions can be found. 
 
 \begin{table}[]
 \caption{\textit{Determination of $ordo$ for `Best' and `Worst Case'}}
-\label{tab:ordo}
+\label{tab:ordo2}
 \begin{tabular}{llcc}
 &  & Worst Case & Best Case \\ 
 \hline
@@ -289,13 +425,34 @@ $n_0$  &  & 7                                     & 15                          
 \end{tabular}
 \end{table}
 
-show plot
-
 \section{Discussion}
 \subsection{Experimental Complexity Analysis}
+Plotting the experimental data (left panel of figure \ref{fig:graph}) showed that
+the investigated algorithm is not of $O(k)$ or $O(n)$ as this would
+have yielded a straight line. To test the hypothesis whether the
+algorithm could follow a second degree polynom function, the response
+variabel was transformed. If the hypothesis is true, one can expect
+the resulting plot to expose linear behaviour. As can be seen in the
+right panel of figure \ref{fig:graph}, this was the case. At least
+visually, the obtained data looked linear. To get a more objective
+metric, linear regression was calculated on the transormed data. The
+obtained $R^2$ value of 0.9988 is a very strong indication that the
+transformed data is well represented by a linear equation 
+(table \ref{tab:regression}). So the hypothesis that the obtained
+experimental data follows a second degree polynom function was
+seen as proven and the linear regression equation was transformed back
+to yield a second degree polynom function (equation
+\ref{eq:quadratic}). Finally, $c$ and $n_{0}$ were calculated to confirm
+the validity of the found `ordo' defintion (table \ref{tab:ordo}). 
+
 
 \subsection{Asymptotic Complexity Analysis}
+The main given pseudo code for a bubble sort algorithm has the ma
+
 \subsubsection{Worst Case}
+
+
+
 Line 1, 2 and 12 run just once. Line 3 runs \verb!numElements + 1! times. Lines
 4 and 11 run \verb!numElements! times. Line 5 runs
 \verb!(numElements * (numElements - 1)) / 2) + 1! 
