@@ -21,9 +21,10 @@
 \coursecode{DV160HT15}
 \title{OU4 Analysis of Complexity}
 \author{Lorenz Gerber  ({\tt{dv15lgr@cs.umu.se}})}
-\date{2015-12-25}
-%\revisiondate{2015-09-15}
-\instructor{Lena Kallin Westin / Johan Eliasson}
+\date{2016-01-08}
+\revisiondate{2016-01-18}
+\instructor{Lena Kallin Westin / Johan Eliasson / Emil Marklund / Lina
+Ögren}
 
 
 % DOCUMENT SETTINGS
@@ -68,18 +69,19 @@ on the number of list elements. Such an analysis results in an algebraic
 expression, a function $f(n) = t$ where $n$ is the input size and $t$
 the algorithm runtime. This will allow to classify algorithms into a
 number of groups according to their most dominant term in the 
-describing algebraic function: $k, log(n)$, $n$, $n^2$, $n^k$ or $a^n$.
+describing algebraic function, for example $k, log(n)$, $n$, $n^2$, 
+$n^k$ or $a^n$.
 
 In this laboration, we were working with two common ways for
-determining the function relation between input size and runtime:
-`experimental complexity analysis' and `asymptotic complexity analysis
-based on calculation of primitive operations'. While both of these
+determining the relation between input size and runtime:
+\emph{experimental complexity analysis} and \emph{asymptotic complexity analysis
+based on calculation of primitive operations}. While both of these
 methods can yield rather complex expressions, the aim is to find a
 simple formula that describes the relation 'on the safe side', i.e. a
-conservative estimation of run-time. This last description, finding
+conservative estimation of run-time. This last description, \emph{finding
 a simple, conservative expression for the relation of input size and
-runtime qualifies as a `sloppy' definition of the `Big O' notation
-which will be described in more detail further down.
+runtime} qualifies as a \emph{sloppy} definition of the \emph{Big O} 
+notation \emph{ordo} which will be described in more detail further down.
 
 \subsection{Experimental Complexity Analysis}
 In experimental complexity analysis, the time consumption of the
@@ -90,9 +92,9 @@ replicate measurments for each input size.
 The replication is important for mainly two reasons: First, the 
 performance of a computer is not perfectly constant over time. 
 It varies within a small range and measurments will
-therefore spread somewhat around a theoretical `true' value. Second,
+therefore spread somewhat around a theoretical \emph{true} value. Second,
 and in most cases more important, many algorithms have a certain
-`random' component built in. Alternatively, the test data could be
+\emph{random} component built in. Alternatively, the test data could be
 generated randomly to assess an average case. Taking up the
 example of sorting a list again, the data could be already sorted in the
 best case or oposite to the requested sort sequence in the worst
@@ -109,21 +111,21 @@ a curve. If the assumption was correct and the resulting graph looks
 linear, a linear regression analysis will numerically provide proof
 for the assumption. The obtained line equation can then be
 transformed back, in the described case resulting in a second degree 
-polynom. From here, the next step will be to determine `ordo' of the
+polynom. From here, the next step will be to determine \emph{ordo} of the
 obtained function which will be described further down.
 
 \subsection{Asymptotic Complexity Analysis}
 In asymptotic complexity analysis, the aim is the same as described
 above in experimental complexity analysis: Obtaining a algebraic
 relation between input data size and runtime. However, in asymptotic
-complexity analysis, the algorithm must be know and available. The
+complexity analysis, the algorithm must be known and available. The
 analysis is based on a detailed account for how often each step in the
 algorithm will run as a function of input size $n$. There can be
 certain steps in an algorithm, that will be independent of input
 size, constant. Others will be related linear, polynomal, logarithmic
 or exponential with input size. A Typical example is a double
-\verb!For! loop: It will yield a $n /times n$ relation, hence it
-results in a $n^2$ funtion.
+\verb!For! loop: It will yield a $n \times n$ relation, hence it
+results in a $n^2$ function.
 
 The steps to account for in an algorithm are called 'primtive
 operations'. This is a rather theoretical definition that leaves some
@@ -131,16 +133,15 @@ room for interpretation. But in general, primitive operations are
 \verb![read]!, \verb![write/assign]!, \verb![compare]!,
 \verb![increase/decrease]!, \verb![arithmetic operations]! etc. Summing up
 all primitive operations for a given algorithm will result in a
-function $f(n)$ where $n$ is the input size. Primitve operations will
-not perfectly reflect the real case as it can for example not take 
-cache optimizations of a given system into account. Already the use of
-different compilers for a given source code can result in differences
-regarding primitive operations. 
+function $f(n)$ where $n$ is the input size.  Primitve operations will
+usually just be an approximation as it is nearly impossible to track
+each primitive operation down to machine level, including for example
+cache optimization mechanisms. 
 
-\subsection{The `Big O' notation'}
-`Ordo' or `Big O' notation is a mathematical definition of an algorithms'
-time complexity. It's formal defintion is shown in equation
-(\ref{eq:ordo})\cite[pp. 245]{janlert2000}.  
+\subsection{The \emph{Big O' notation}}
+\emph{Ordo} or \emph{Big O} notation is a mathematical definition of an algorithms'
+time complexity. It's formal defintion is shown in \textit{equation
+(\ref{eq:ordo})}\cite[pp. 245]{janlert2000}.  
 
 \begin{equation} \label{eq:ordo}
 f(n) \Rightarrow O(g(n)) \textrm{ if } f(n) \leq c \times g(n)
@@ -150,17 +151,17 @@ c > 0 \textrm{ and } n_{0} \geq 1
 
 In words: If the function $c \times g(n)$ for $n$ larger than $n_{0}$
 is always bigger than $f(n)$, it is of $O(g(n))$ (say: $ordo$  $g$ of
-$n$). Hence knowing `ordo' of an algorithm gives a good estimation 
+$n$). Hence knowing \emph{ordo} of an algorithm gives a good estimation 
 of it's time complexity.
 
 \subsection{Determining of \textit{Ordo}, $c$ and $n_{0}$}
-Determing `Ordo' is done in several steps. First the most dominant
+Determing \emph{Ordo} is done in several steps. First the most dominant
 function terms of $f(n)$ has to be found and set as $g(n)$. In a
 general second degree polynom, $n^2$ is for example the dominant term.
 
 Then the constant factor $c$ is determined by calculating the limes
 from n to infinity of dividing $f(n)$ by $g(n)$ according to
-equation (\ref{eq:limes}).  
+\textit{equation (\ref{eq:limes})}.  
 
 \begin{equation} \label{eq:limes}
 \lim_{n \to \infty} {f(n) \over g(n)} + 1
@@ -168,7 +169,7 @@ equation (\ref{eq:limes}).
 
 The value $n_{0}$ is the lower limit of input size $n$ for which
 $g(n)$ will be at least equal or larger than $f(n)$. It is found by
-solving equation \ref{eq:nzero}. 
+solving \textit{equation (\ref{eq:nzero})} for $n$. 
 
 \begin{equation} \label{eq:nzero}
 c\times g(n) = f(n)
@@ -185,9 +186,9 @@ was unknown to us which algorithms were implemented in the
 program. The program would run a certain time and before quitting, 
 print the runtime to standard out.
 
-To automate the experimental process, a shell script (listing \ref{ls:bash}) 
-was written that run the program 10 times for the input sizes n = (1'000, 
-2'500, 5'000, 10'000, 15'000, 20'000, 25'000, 50'000, 75'000, 100'000,
+To automate the experimental process, a shell script (\textit{listing \ref{ls:bash}}) 
+was written that run the program 10 times for the input sizes n =
+(10'000, 15'000, 20'000, 25'000, 50'000, 75'000, 100'000,
 125'000, 150'000, 200'000).
 
 \begin{listing}
@@ -208,13 +209,13 @@ done
 \end{listing}
 
 The script was run from the bash commandline on a MacbookPro8,1 and
-the output piped and appended to a text file which was then imported
-to statistical computing environment R \cite{rlanguage}. All data analysis and
+the output was piped and appended to a text file which was then imported
+to the statistical computing environment R \cite{rlanguage}. All data analysis and
 plotting was done in R. 
 
 
 \subsection{Asymptotic Complexity Analysis}
-We were given pseudo code of a bubble sort algorithm (listing \ref{ls:bubble})
+We were given pseudo code of a bubble sort algorithm (\textit{listing \ref{ls:bubble}})
 to conduct asymptotic complexity analysis. A short description on how
 to account for primitive operations was available through the course
 homepage \cite{complex}.
@@ -243,8 +244,8 @@ output: the sorted list
 \end{listing}
 
 After accounting for primitive operations and obtaining algebraic
-functions describing `best' and `worst' case for the bubblesort algorithm, 
-`ordo' expressions were determined according to lecture notes. 
+functions describing \emph{best} and \emph{worst} case for the bubblesort algorithm, 
+\emph{ordo} expressions were determined according to lecture notes. 
 
 
 \section{Results}
@@ -259,12 +260,12 @@ functions describing `best' and `worst' case for the bubblesort algorithm,
 \label{fig:graph}
 \end{figure}
 
-The left panel of figure \ref{fig:graph} shows the experimental
+The left panel of \textit{figure \ref{fig:graph}} shows the experimental
 runtime values plotted against $n$ length of input data. The values
 were then transformed by calculating the square root. The 
-transformed data is shown in the right panel of figure 
-\ref{fig:graph}. Then linear regression was calculated on the
-transformed data (\textit{table\ref{tab:regression}}).
+transformed data is shown in the right panel of \textit{figure 
+\ref{fig:graph}}. Then linear regression was calculated on the
+transformed data (\textit{table \ref{tab:regression}}).
 
 \begin{table}[]
 \caption{\textit{Linear regression of the transformed experimental data}}
@@ -278,22 +279,23 @@ $R^2$ &  & 0.9988 \\
 \end{table}
 
 The obtained linear equation was transformed back to yield a
-quadratic function as shown in equation (\ref{eq:quadratic}).
+quadratic function as shown in \textit{equation (\ref{eq:quadratic})}.
 
 \begin{equation} \label{eq:quadratic}
 y = 5.4 \times 10^{-9}x^2 + 2.1 \times 10^{-6}x + 0.2 \times 10^{-4}
 \end{equation}
 
-Then $c$ was determined according to equation (\ref{eq:limes}) and
+Then $c$ was determined according to \textit{equation (\ref{eq:limes})} and
 $n_0$ was determined by solving the quadratic equation resulting from
-$f(n) = g(n)$ (Table \ref{tab:ordo}, figure \ref{fig:ordo}). 
+$f(n) = g(n)$ (\textit{Table \ref{tab:ordo}}, \textit{figure \ref{fig:ordo}}). 
 
 \begin{table}[]
-\caption{\textit{Calculated value for ordo determination}}
+\caption{\textit{Ordo determination of experimental complexity analysis}}
 \label{tab:ordo}
 \begin{tabular}{lll}
-$c$                       &  & $6.4 \times 10^{-9}$ \\
-\multicolumn{1}{c}{$n_0$} &  & 2060                
+$c$      &  & $6.4 \times 10^{-9}$ \\
+$n_0$    &  & 2060                 \\
+Ordo     &  & $O(n^2)$                
 \end{tabular}
 \end{table}
 
@@ -307,9 +309,9 @@ $c$                       &  & $6.4 \times 10^{-9}$ \\
 
 \subsection{Asymptotic Complexity Analysis}
 \subsubsection{Worst Case}
-Listing \ref{ls:worst} shows the determination of primitive operation
-for the `worst' case. The line numbers correspond to the line numbers
-in the original pseudocode shown in listing \ref{ls:bubble}.
+\textit{Listing \ref{ls:worst}} shows the determination of primitive operation
+for the \emph{worst} case. The line numbers correspond to the line numbers
+in the original pseudocode shown in \textit{listing \ref{ls:bubble}}.
 
 \begin{listing}
 \begin{verbatim}
@@ -364,15 +366,15 @@ Hence:
 = 12.5x^2 + 4.5x + 12
 
 \end{verbatim}
-\caption{\textit{Determining the `worst case' complexity for the given
-    `bubblesort' algorithm. The line numbers correspond to those in 
+\caption{\textit{Determining the \emph{worst case} complexity for the given
+    \emph{bubblesort} algorithm. The line numbers correspond to those in 
 listing \ref{ls:bubble}}.\label{ls:worst}}
 \end{listing}
 
 \subsubsection{Best case}
-Listing \ref{ls:best} shows the determination of primitive operation
-for the `best' case. The line numbers correspond to the line numbers
-in the original pseudocode shown in listing \ref{ls:bubble}.
+\textit{Listing \ref{ls:best}} shows the determination of primitive operation
+for the \emph{best} case. The line numbers correspond to the line numbers
+in the original pseudocode shown in \textit{listing \ref{ls:bubble}}.
 
 \begin{listing}
 \begin{verbatim}
@@ -411,46 +413,47 @@ Hence:
 = 9x + 15
 
 \end{verbatim}
-\caption{Determining the `best case' complexity for the given
-  `bubblesort' algorithm. The line numbers correspond to those in
+\caption{Determining the \emph{best case} complexity for the given
+  \emph{bubblesort} algorithm. The line numbers correspond to those in
   listing \ref{ls:bubble}.\label{ls:best}}
 \end{listing}
 
-In table \ref{tab:ordo2} the keyfigures of the `ordo' determination for
-`best' and `worst' case expressions can be found. 
+In \textit{table \ref{tab:ordo2}} the keyfigures of the \emph{ordo} determination for
+\emph{best} and \emph{worst} case expressions can be found. 
 
 \begin{table}[]
-\caption{\textit{Determination of $ordo$ for `Best' and `Worst Case'}}
+\caption{\textit{Determination of $ordo$ for \emph{Best} and \emph{Worst Case}}}
 \label{tab:ordo2}
 \begin{tabular}{llcc}
 &  & Worst Case & Best Case \\ 
 \hline
 $f(n)$ &  & \multicolumn{1}{c}{$12.5n^2+4.5x+12$} & \multicolumn{1}{c}{$9x+15$} \\
-$g(n)$ &  & \multicolumn{1}{c}{$n^2$}             & \multicolumn{1}{c}{$x$}   \\
+$g(n)$ &  & $n^2$                                 & $x$   \\
 $c$    &  & 13.5                                  & 10                          \\
-$n_0$  &  & 7                                     & 15                          \\                         
+$n_0$  &  & 7                                     & 15        \\
+Ordo   &  & $O(n^2)$                              & $O(n)$ \\
 \end{tabular}
 \end{table}
 
 \section{Discussion}
 \subsection{Experimental Complexity Analysis}
-Plotting the experimental data (left panel of figure \ref{fig:graph}) showed that
+Plotting the experimental data (left panel of \textit{figure \ref{fig:graph}}) showed that
 the investigated algorithm is not of $O(k)$ or $O(n)$ as this would
 have yielded a straight line. To test the hypothesis whether the
 algorithm could follow a second degree polynom function, the response
-variabel was transformed. If the hypothesis is true, one can expect
-the resulting plot to expose linear behaviour. As can be seen in the
-right panel of figure \ref{fig:graph}, this was the case. At least
+variabel was transformed by taking the square root. If the hypothesis
+was tru, one can expect the resulting plot to expose linear behaviour. As can be seen in the
+right panel of \textit{figure \ref{fig:graph}}, this was the case. At least
 visually, the obtained data looked linear. To get a more objective
-metric, linear regression was calculated on the transormed data. The
+metric, linear regression was calculated on the transformed data. The
 obtained $R^2$ value of 0.9988 is a very strong indication that the
 transformed data is well represented by a linear equation 
-(table \ref{tab:regression}). So the hypothesis that the obtained
+(\textit{table \ref{tab:regression}}). So the hypothesis that the obtained
 experimental data follows a second degree polynom function was
 seen as proven and the linear regression equation was transformed back
-to yield a second degree polynom function (equation
-\ref{eq:quadratic}). Finally, $c$ and $n_{0}$ were calculated to confirm
-the validity of the found `ordo' defintion (table \ref{tab:ordo}). 
+to yield a second degree polynom function (\textit{equation
+\ref{eq:quadratic}}). Finally, $c$ and $n_{0}$ were calculated to confirm
+the validity of the found \emph{ordo} defintion $O(n^2)$(\textit{table \ref{tab:ordo}}). 
 
 
 \subsection{Asymptotic Complexity Analysis}
@@ -459,34 +462,34 @@ described as a \verb!for! loop encapsulated in a \verb!while!
 loop. 
 
 \subsubsection{Worst Case}
-The `worst' case occurs, when the in-data list is sorted in the
+The \emph{worst} case occurs, when the in-data list is sorted in the
 oposite direction. Only by looking at the above described encapsulated
 loop structure, it becomes clear that the complexity will be at least
 $n \times n$, hence $n^2$. However, by reducing the inner loop in
 every additional round for the outer loop to skip already sorted
-elements, the inner loop runs in the worst case just roughly ${n /over
-  2}$ times. All further details can be seen in listing
-\ref{ls:worst}. In brief, it was chosen to also account one primitive
-operation for each \verb!read! of a variable.
+elements, the inner loop runs in the worst case just roughly ${n \over
+  2}$ times. All further details can be seen in \textit{listing
+\ref{ls:worst}}. In brief, it was chosen to also account one primitive
+operation for each \verb!read! of variables.
 
-After finding the $f(n)$, `ordo' was determined. $c$ was calculated
-according to equation \ref{eq:limes} and $n_{0}$ by solving equation
-\ref{eq:nzero}. 
+After finding the $f(n)$,  $c$ was calculated according to equation 
+\ref{eq:limes} and $n_{0}$ by solving equation \ref{eq:nzero}. Hence,
+the worst case was determined to be of \emph{ordo} $O(n^2)$. 
 
-\subsubsection{`Best Case'}
+\subsubsection{\emph{Best Case}}
 The best case occurs when the in-data list is already sorted. In this
 case, the outer \verb!while! loop will run through just once while the
 inner \verb!for! loop will run about $n-1$ times where $n$ is the
 number of elements. However, on each \verb!for! loop round, just a
 part of the code will be executed, as the \verb!if! condition will
-always evaluate to \verb!false!. Hence, at `best' case, the given
-bubble sort algorithm can be expected to be of linear time complexity
-which was also the result of summing up the primitive operations as
-shown in listing \ref{ls:best}.  
+always evaluate to \verb!false!. Hence, at \emph{best} case, the given
+bubble sort algorithm can be expected to be of linear time complexity 
+which was also the result of summing up the primitive 
+operations as shown in \textit{listing \ref{ls:best}}.  
 
-Determination of `ordo' was accomplished in the same way as for the
-`best' case as described earlier. The result is shown in table
-\ref{tab:ordo2}.
+Determination of \emph{ordo} was accomplished in the same way as for the
+\emph{best} case as described earlier. The result, Ordo $O(n)$, is shown 
+in \textit{table\ref{tab:ordo2}}.
 
 \section{Reflections on the laboration}
 I enjoyed solving the present laboration. From the first part I liked
@@ -495,11 +498,11 @@ data and coming up with a function describing the data. I found the
 laboration well explained and on an appropriate level of difficulty. 
 
 In the asymptotic complexity analysis I was surprised how much time
-once could spend on a rather simple and short algorithm and still time
+one could spend on a rather simple and short algorithm and still time
 after time finding again inconsitencies in how one assigned primitive
 operations. It took me at least five attempts to get the final version
-of the `worst' case analysis. Altough the final result did not change
-much from attempt to attempt, it felt just wrong to not justify small
+of the \emph{worst} case analysis. Altough the final result did not change
+much from attempt to attempt, it felt just wrong to not adjust small
 inconsistencies as I thought every time it would be the last.
 
 
